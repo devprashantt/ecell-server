@@ -13,7 +13,7 @@ const contactSchema = new mongoose.Schema({
     email: String,
     message: String,
     city: String,
-    state: String,
+    college: String,
     createdAt: {
         type: Date,
         default: new Date(),
