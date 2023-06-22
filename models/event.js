@@ -17,17 +17,17 @@ const eventSchema = new Schema({
         type: String,
         required: true,
     },
-    passcode: {
-        type: String,
-        required: true,
-    },
-    email: {
-        type: String,
-        required: true,
-    },
     image: {
-        type: String, // Assuming you will store the image URL as a string
+        type: String,
         required: true,
+    },
+    teams: {
+        name: {
+            type: String,
+        },
+        college: {
+            type: String,
+        }
     },
     attendees: [{ type: Schema.Types.ObjectId, ref: 'User' }],
 });

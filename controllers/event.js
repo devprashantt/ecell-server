@@ -21,31 +21,12 @@ export async function getEvents(req, res) {
 export async function createEvent(req, res) {
     try {
         console.log('Event creation request received:', req.body);
-        console.log('Event image:', req.body.croppedImage);
 
-        const { title, description, date, registrationLink, passcode, email } = req.body;
+        const { title, description, date, registrationLink } = req.body;
 
         // const image_link = await uploadImage(req.body.croppedImage);
 
         console.log('Event creation request received:', req.body);
-
-        // Check if the passcode is valid
-        if (passcode !== process.env.EVENT_CREATION_PASSCODE) {
-            return res.status(401).json({
-                success: false,
-                message: 'Invalid passcode',
-            });
-        }
-
-        // Check if the requesting user's email is allowed
-        const allowedEmails = ['officialprashanttt@gmail.com'];
-
-        if (!allowedEmails.includes(email)) {
-            return res.status(403).json({
-                success: false,
-                message: 'Unauthorized user',
-            });
-        }
 
         // Create a new event using the Event model
         const event = new Event({
@@ -53,8 +34,6 @@ export async function createEvent(req, res) {
             description,
             date,
             registrationLink,
-            passcode,
-            email,
             image: req.body.croppedImage,
         });
 
@@ -77,3 +56,12 @@ export async function createEvent(req, res) {
         });
     }
 };
+
+export async function getEventById(req, res) {
+    try {
+        const event = await Event.findById(req.params.id);
+        res.status(200).json(event);
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
+}

@@ -4,10 +4,11 @@ import connectDB from "./config/mongodb.js";
 import cloudinary from 'cloudinary';
 import cors from "cors";
 
-import contactRoutes from "./routes/contact.routes.js";
-import leaderboardRoutes from "./routes/leaderboard.routes.js";
+import contactRoute from "./routes/contact.routes.js";
+import leaderboardRoute from "./routes/leaderboard.routes.js";
 import userRoute from './routes/user.routes.js';
 import eventRoute from './routes/event.routes.js';
+import adminRoute from './routes/admin.routes.js';
 
 import dotenv from "dotenv";
 
@@ -20,7 +21,7 @@ const allowedOrigins = ['http://127.0.0.1:5173', '"https://ecelliiit.netlify.app
 
 app.use(cors(
     {
-        origin: process.env.CLIENT_URL,
+        origin: 'http://127.0.0.1:5173',
         credentials: true
     }
 ));
@@ -35,10 +36,11 @@ cloudinary.config({
 });
 
 //routes
-app.use("/contact", contactRoutes);
-app.use("/leaderboard", leaderboardRoutes);
+app.use("/contact", contactRoute);
+app.use("/leaderboard", leaderboardRoute);
 app.use('/users', userRoute);
-app.use('/event', eventRoute)
+app.use('/event', eventRoute);
+app.use('/admin', adminRoute);
 
 
 app.listen(process.env.PORT, () =>
