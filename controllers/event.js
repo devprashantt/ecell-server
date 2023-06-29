@@ -20,11 +20,11 @@ export async function getEvents(req, res) {
 // Create a new event
 export async function createEvent(req, res) {
     try {
-        console.log('Event creation request received:', req.body);
+        // console.log('Event creation request received:', req.body);
 
         const { title, description, date, registrationLink } = req.body;
 
-        // const image_link = await uploadImage(req.body.croppedImage);
+        const image_link = await uploadImage(req.body.croppedImage);
 
         console.log('Event creation request received:', req.body);
 
@@ -34,7 +34,7 @@ export async function createEvent(req, res) {
             description,
             date,
             registrationLink,
-            image: req.body.croppedImage,
+            image: image_link,
         });
 
         // Save the event to the database
