@@ -20,8 +20,6 @@ export async function getEvents(req, res) {
 // Create a new event
 export async function createEvent(req, res) {
     try {
-        // console.log('Event creation request received:', req.body);
-
         const { title, description, date, registrationLink } = req.body;
 
         const image_link = await uploadImage(req.body.croppedImage);
@@ -57,6 +55,38 @@ export async function createEvent(req, res) {
     }
 };
 
+//Delete an event
+export async function deleteEvent(req, res) {
+    try {
+        const event = await Event.findById(req.params.id);
+        if (!event) return res.status(404).json({ message: 'Event not found' });
+        await event.remove();
+        res.status(200).json({ message: 'Event deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+//Update event
+export async function updateEvent(req, res) {
+    try {
+        const event = await Event.findById(req.params.id);
+        if (!event) return res.status(404).json({ message: 'Event not found' });
+        const { title, description, date, registrationLink } = req.body;
+
+        if (title) event.title = title;
+        if (description) event.description = description;
+        if (date) event.date = date;
+        if (registrationLink) event.registrationLink = registrationLink;
+
+        await event.save();
+        res.status(200).json({ message: 'Event updated successfully', success: true, event });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+//Get event
 export async function getEventById(req, res) {
     try {
         const event = await Event.findById(req.params.id);
