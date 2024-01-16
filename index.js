@@ -42,6 +42,8 @@ app.use("/admin", adminRoute);
 
 app.post("/github", (req, res) => {
   console.log(req.body);
+
+  res.status(200).json({ message: "Github webhook received" });
 });
 
 app.listen(process.env.PORT, () =>
