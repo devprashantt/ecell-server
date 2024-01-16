@@ -46,7 +46,53 @@ export const registerUser = async (req, res) => {
     }
 };
 
+//Create a new ambassador
+export const createAmbassador = async (req, res) => {
+    try {
+        const { name, email, phone, college, message } = req.body;
 
+        // Check if the user already exists
+
+        User.findOne({ email }, (err, user) => {
+            if (err) {
+                console.error('Error finding user:', err);
+                return res.status(500).json({ error: 'Internal server error.' });
+            }
+
+            if (user) {
+                return res.status(400).json({ error: 'User already exists.' });
+            }
+
+            // Create a new user
+            const newAmbassador = new User({
+                name,
+                email,
+                phone,
+                college,
+                coverLetter: message,
+                forAmbassador: true,
+            });
+
+            newAmbassador.save((err, user) => {
+                if (err) {
+                    console.error('Error saving user:', err);
+                    return res.status(500).json({ error: 'Internal server error.' });
+                }
+
+                // Emit the 'ambassadorRegistered' event
+                // eventEmitter.emit('ambassadorRegistered', user);
+
+                // Send confirmation email
+                // sendConfirmationEmail(user.email);
+
+                res.status(201).json({ message: 'Ambassador registered successfully.' });
+            });
+        });
+    } catch (error) {
+        console.error('Ambassador registration error:', error);
+        res.status(500).json({ error: 'Internal server error.' });
+    }
+};
 
 export const getRegisteredUsers = async (req, res) => {
     try {

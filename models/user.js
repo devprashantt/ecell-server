@@ -3,7 +3,11 @@ import mongoose from "mongoose";
 const userSchema = new mongoose.Schema({
     name: { type: String, required: true },
     email: { type: String, required: true },
-    college: { type: mongoose.Schema.Types.ObjectId, ref: 'College' },
+    phone: { type: Number },
+    coverLetter: { type: String },
+    forAmbassador: { type: Boolean, default: false },
+    isAmbassador: { type: Boolean, default: false },
+    college: { type: String, required: true },
     score: { type: Number, default: 0 },
     events: [
         {
